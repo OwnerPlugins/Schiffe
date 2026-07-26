@@ -18,6 +18,7 @@ from Tools.Directories import fileExists, resolveFilename, SCOPE_CURRENT_PLUGIN,
 from enigma import eTimer, gFont, getDesktop, RT_HALIGN_CENTER, RT_VALIGN_CENTER
 from xml.etree.cElementTree import parse
 from random import randint
+from . import _
 VERSION = "7.1r0"
 SAVEFILE = resolveFilename(SCOPE_CURRENT_PLUGIN, "Extensions/Schiffe/schiffe.sav")
 
@@ -217,8 +218,8 @@ class Schiffe(Screen):
         self["key_green"] = Button(_("New Game"))
         self["key_blue"] = Button(_("Solve Game"))
         self["key_red"] = Button(_("Quit Game"))
-        self["result"] = Label(_(""))
-        self["movex"] = Label(_(""))
+        self["result"] = Label("")
+        self["movex"] = Label("")
         self.cnt = 0
         self.timer = eTimer()
         self.timer.callback.append(self.timerHandler)
@@ -285,7 +286,7 @@ class Schiffe(Screen):
                     cnt += 1
             if cnt == 23:
                 self.gameover = True
-                self["message"].setText("you won!")
+                self["message"].setText(_("you won!"))
                 self.timer.stop()
             else:
                 # not won, next move for box...
@@ -301,7 +302,7 @@ class Schiffe(Screen):
                         cnt += 1
                 if cnt == 23:
                     self.gameover = True
-                    self["message"].setText("you lose!")
+                    self["message"].setText(_("you lose!"))
                     self.timer.stop()
                     # box has won, show all cells...
                     for cell in self.boxCells:
@@ -357,8 +358,8 @@ class Schiffe(Screen):
     # displays moves and time in title...
     def timerHandler(self):
             if isFHD():
-                self["result"].setText("%10d shots" % self.moves)
-                self["movex"].setText("%10d sec" % self.cnt)
+                self["result"].setText(_("%10d shots") % self.moves)
+                self["movex"].setText(_("%10d sec") % self.cnt)
             else:
                 self.instance.setTitle("Schiffe versenken %s %10d shots %10d sec" % (VERSION, self.moves, self.cnt))
             self.cnt += 1
@@ -402,7 +403,7 @@ class Schiffe(Screen):
     def solve_game(self):
         if not self.gameover:
             self.gameover = True
-            self["message"].setText("You lost!")
+            self["message"].setText(_("You lost!"))
             self.timer.stop()
             # show all cells...
             for cell in self.boxCells:
